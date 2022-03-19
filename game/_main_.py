@@ -7,8 +7,8 @@ from game.casting.cast import Cast
 
 from game.directing.director import Director
 # ra
-from game.services.keyboard_service import KeyboardService
-from game.services.video_service import VideoService
+from game.services.keyboard_services import KeyboardService
+from game.services.video_services import VideoService
 
 from game.shared.color import Color
 from game.shared.point import Point
