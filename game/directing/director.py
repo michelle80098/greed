@@ -1,3 +1,5 @@
+from game.casting.gemstone import Gemstone
+
 class Director:
     """A person who directs the game. 
     
@@ -26,6 +28,7 @@ class Director:
         """
         self._video_service.open_window()
         while self._video_service.is_window_open():
+            Gemstone.gemstone_starting_position(self._video_service.get_height)
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
