@@ -38,7 +38,7 @@ def main():
     banner.set_font_size(FONT_SIZE)
     banner.set_color(WHITE)
     banner.set_position(Point(CELL_SIZE, 0))
-    cast.add_player("banners", banner)
+    cast.add_actor("banners", banner)
     
     # create the robot
     x = int(MAX_X / 2)
@@ -50,7 +50,7 @@ def main():
     gollum.set_font_size(FONT_SIZE)
     gollum.set_color(WHITE)
     gollum.set_position(position)
-    cast.add_player("gollum", gollum)
+    cast.add_actor("gollum", gollum)
     
     # create the artifacts
     with open(DATA_PATH) as file:
@@ -77,7 +77,7 @@ def main():
         gemstone.set_color(color)
         gemstone.set_position(position)
         gemstone.set_message(message)
-        cast.add_player("gemstone", gemstone)
+        cast.add_actor("gemstone", gemstone)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)
