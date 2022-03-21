@@ -24,12 +24,11 @@ class Gemstone(Player):
             string: The message.
         """
 
-        
-        return self._pos_value
+        self._value = 100
     
     def get_stone_value(self):
         
-        return self._neg_value
+        self._value = -100
     
 
     def adjust_value(self, _neg_message, _pos_message):

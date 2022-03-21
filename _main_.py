@@ -6,7 +6,7 @@ from game.casting.gemstone import Gemstone
 from game.casting.cast import Cast
 
 from game.directing.director import Director
-# ra
+
 from game.services.keyboard_services import KeyboardService
 from game.services.video_services import VideoService
 
@@ -24,7 +24,7 @@ ROWS = 40
 CAPTION = "Gollum Finds Precious"
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
-DEFAULT_GEMSTONE = 40
+DEFAULT_GEMSTONE = 10
 
 
 def main():
@@ -53,16 +53,16 @@ def main():
     cast.add_actor("gollum", gollum)
     
     # create the artifacts
-    with open(DATA_PATH) as file:
-        data = file.read()
-        messages = data.splitlines()
+    # with open(DATA_PATH) as file:
+    #     data = file.read()
+    #     messages = data.splitlines()
 
     for n in range(DEFAULT_GEMSTONE):
-        text = chr(random.randint(33, 126))
-        message = messages[n]
+        # text = chr(random.randint(33, 126))
+        # message = messages[n]
 
         x = random.randint(1, COLS - 1)
-        y = random.randint(1, ROWS - 1)
+        y = 0
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
@@ -72,11 +72,17 @@ def main():
         color = Color(r, g, b)
         
         gemstone = Gemstone()
-        gemstone.set_text(text)
+        gatekeeper = random.randint(0, 2)
         gemstone.set_font_size(FONT_SIZE)
         gemstone.set_color(color)
         gemstone.set_position(position)
-        gemstone.set_message(message)
+        if gatekeeper:
+            gemstone.get_stone_value()
+            gemstone.set_text("O")
+        else:
+            gemstone.get_gem_value()
+            gemstone.set_text("*")
+        gemstone.set_message()
         cast.add_actor("gemstone", gemstone)
     
     # start the game
