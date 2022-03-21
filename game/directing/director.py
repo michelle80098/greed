@@ -40,7 +40,7 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        gollum = cast.get_first_player("robots")
+        gollum = cast.get_first_actor("gollum")
         velocity = self._keyboard_service.get_direction()
         gollum.set_velocity(velocity)        
 
@@ -50,9 +50,9 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        banner = cast.get_first_player("banners")
-        gollum = cast.get_first_player("gollum")
-        gemstones = cast.get_player("gemstones")
+        banner = cast.get_first_actor("banners")
+        gollum = cast.get_first_actor("gollum")
+        gemstones = cast.get_actor("gemstones")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
@@ -71,6 +71,6 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._video_service.clear_buffer()
-        players = cast.get_all_player()
-        self._video_service.draw_players(players)
+        players = cast.get_all_actors()
+        self._video_service.draw_actors(players)
         self._video_service.flush_buffer()
