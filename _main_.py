@@ -82,7 +82,6 @@ def main():
         else:
             gemstone.get_gem_value()
             gemstone.set_text("*")
-        gemstone.set_message()
         cast.add_actor("gemstone", gemstone)
     
     # start the game
