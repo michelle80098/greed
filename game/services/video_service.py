@@ -1,6 +1,5 @@
 import pyray
 
-# Thanks to Brother Manley for the base code which we were able to change for GREED.
 
 class VideoService:
     """Outputs the game state. The responsibility of the class of objects is to draw the game state 
@@ -19,44 +18,39 @@ class VideoService:
         self._cell_size = cell_size
         self._frame_rate = frame_rate
         self._debug = debug
-        self._values = 0
 
     def close_window(self):
-        #Closes the window and releases all computing resources.
+        """Closes the window and releases all computing resources."""
         pyray.close_window()
 
     def clear_buffer(self):
-        # Clears the buffer in preparation for the next rendering. This method should be called at
-        # the beginning of the game's output phase.
-
+        """Clears the buffer in preparation for the next rendering. This method should be called at
+        the beginning of the game's output phase.
+        """
         pyray.begin_drawing()
         pyray.clear_background(pyray.BLACK)
         if self._debug == True:
             self._draw_grid()
     
     def draw_actor(self, actor):
-        # Draws the given actor's text on the screen.
+        """Draws the given actor's text on the screen.
 
-        # Args:
-        #     actor (Actor): The actor to draw.
-        
-        value = actor.get_values()
-        self._values += value
-
+        Args:
+            actor (Actor): The actor to draw.
+        """ 
+        text = actor.get_text()
         x = actor.get_position().get_x()
         y = actor.get_position().get_y()
-
         font_size = actor.get_font_size()
         color = actor.get_color().to_tuple()
-
-        pyray.draw_text(self._values, x, y, font_size, color)
+        pyray.draw_text(text, x, y, font_size, color)
         
     def draw_actors(self, actors):
-        # Draws the text for the given list of actors on the screen.
+        """Draws the text for the given list of actors on the screen.
 
-        # Args:
-        #     actors (list): A list of actors to draw.
-         
+        Args:
+            actors (list): A list of actors to draw.
+        """ 
         for actor in actors:
             self.draw_actor(actor)
     

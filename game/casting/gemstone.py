@@ -1,55 +1,31 @@
-from game.casting.player import Player
+from game.casting.actor import Actor
 
-
-class Gemstone(Player):
+class Gemstone(Actor):
     """
-    The gems and the stones 
+    An item of great worth of no worth. 
     
-    The responsibility of an Gemstones is to move both the gems, the stones, and their vales 
+    The responsibility of an Gemstone provide a message.
 
     Attributes:
-        gem_value, stone_value
+        _message (string): A short description about the gemstone.
     """
     def __init__(self):
         super().__init__()
-        self._pos_value = 100
-        self._neg_value = -100
-        self._pos_message = "100"
-        self._neg_message = "-100"
+        self._message = ""
         
-    def get_gem_value(self):
-        """Gets the artifact's message.
+    def get_message(self):
+        """Gets the gemstone's message.
         
         Returns:
             string: The message.
         """
-
-        self._value = 100
+        
+        return self._message
     
-    def get_stone_value(self):
+    def set_message(self, message):
+        """Updates the message to the given one.
         
-        self._value = -100
-    
-
-    def adjust_value(self, _neg_message, _pos_message):
-        
-        
-        
-       
-        for value in self._pos_message and self._neg_message:
-            if Player.get_position() == _pos_message:
-                return self._pos_value
-            
-            elif Player.get_position() == _neg_message:
-                return self._neg_value
-
-
-
-
-    # def set_pos_value(self, ):
-    #     """Updates the message to the given one.
-        
-    #     Args:
-    #         message (string): The given message.
-    #     """
-    #     self._message = message
+        Args:
+            message (string): The given message.
+        """
+        self._message = message

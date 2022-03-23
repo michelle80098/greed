@@ -1,4 +1,4 @@
-from game.casting.gemstone import Gemstone
+from game.shared.point import Point
 
 class Director:
     """A person who directs the game. 
@@ -19,6 +19,7 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
+        self._total_score = 0
         
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -28,7 +29,6 @@ class Director:
         """
         self._video_service.open_window()
         while self._video_service.is_window_open():
-            Gemstone.gemstone_starting_position(self._video_service.get_height)
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
@@ -40,9 +40,14 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        gollum = cast.get_first_actor("gollum")
+        collector = cast.get_first_actor("collectors")
         velocity = self._keyboard_service.get_direction()
-        gollum.set_velocity(velocity)        
+        collector.set_velocity(velocity) 
+
+        gemstones = cast.get_actors("gemstones")
+        for gemstone in gemstones:
+            a_velocity = Point(0, 5)
+            gemstone.set_velocity(a_velocity)     
 
     def _do_updates(self, cast):
         """Updates the robot's position and resolves any collisions with artifacts.
@@ -51,18 +56,25 @@ class Director:
             cast (Cast): The cast of actors.
         """
         banner = cast.get_first_actor("banners")
-        gollum = cast.get_first_actor("gollum")
-        gemstones = cast.get_actor("gemstones")
+        collector = cast.get_first_actor("collectors")
+        gemstones = cast.get_actors("gemstones")
 
-        banner.set_text("")
+        banner.set_text(f"Score: {self._total_score}")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
-        gollum.move_next(max_x, max_y)
+        collector.move_next(max_x, max_y)
         
         for gemstone in gemstones:
-            if gollum.get_position().equals(gemstone.get_position()):
+            gemstone.move_next(max_x, max_y)
+            if collector.get_position().equals(gemstone.get_position()):
                 message = gemstone.get_message()
-                banner.set_text(message)    
+                banner.set_text(message) 
+                if message == '100':
+                    self._total_score += 100
+                else:
+                    self._total_score -= 100
+
+                cast.remove_actor("gemstones", gemstone)   
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
@@ -71,6 +83,6 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._video_service.clear_buffer()
-        players = cast.get_all_actors()
-        self._video_service.draw_actors(players)
+        actors = cast.get_all_actors()
+        self._video_service.draw_actors(actors)
         self._video_service.flush_buffer()

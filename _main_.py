@@ -1,14 +1,14 @@
 import os
 import random
 
-from game.casting.player import Player
+from game.casting.actor import Actor
 from game.casting.gemstone import Gemstone
 from game.casting.cast import Cast
 
 from game.directing.director import Director
 
-from game.services.keyboard_services import KeyboardService
-from game.services.video_services import VideoService
+from game.services.keyboard_service import KeyboardService
+from game.services.video_service import VideoService
 
 from game.shared.color import Color
 from game.shared.point import Point
@@ -21,10 +21,9 @@ CELL_SIZE = 15
 FONT_SIZE = 15
 COLS = 60
 ROWS = 40
-CAPTION = "Gollum Finds Precious"
-DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
+CAPTION = "Greed"
 WHITE = Color(255, 255, 255)
-DEFAULT_GEMSTONE = 10
+DEFAULT_GEMSTONES = 40
 
 
 def main():
@@ -33,36 +32,37 @@ def main():
     cast = Cast()
     
     # create the banner
-    banner = Player()
+    banner = Actor()
     banner.set_text("")
     banner.set_font_size(FONT_SIZE)
     banner.set_color(WHITE)
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
     
-    # create the robot
+    # create the collector
     x = int(MAX_X / 2)
-    y = int(MAX_Y / 2)
+    y = int(MAX_Y - 50)
     position = Point(x, y)
 
-    gollum = Player()
-    gollum.set_text("#")
-    gollum.set_font_size(FONT_SIZE)
-    gollum.set_color(WHITE)
-    gollum.set_position(position)
-    cast.add_actor("gollum", gollum)
+    collector = Actor()
+    collector.set_text("#")
+    collector.set_font_size(FONT_SIZE)
+    collector.set_color(WHITE)
+    collector.set_position(position)
+    cast.add_actor("collectors", collector)
     
-    # create the artifacts
-    # with open(DATA_PATH) as file:
-    #     data = file.read()
-    #     messages = data.splitlines()
+    # create the gemstones
+    for n in range(DEFAULT_GEMSTONES):
+        symbol = ['o', '*']
+        text = random.choice(symbol)
+        if text == 'o':
+            message = '-100'
+        else:
+            message = '100'
 
-    for n in range(DEFAULT_GEMSTONE):
-        # text = chr(random.randint(33, 126))
-        # message = messages[n]
 
         x = random.randint(1, COLS - 1)
-        y = 0
+        y = random.randint(1, ROWS -1)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
@@ -72,17 +72,12 @@ def main():
         color = Color(r, g, b)
         
         gemstone = Gemstone()
-        gatekeeper = random.randint(0, 2)
+        gemstone.set_text(text)
         gemstone.set_font_size(FONT_SIZE)
         gemstone.set_color(color)
         gemstone.set_position(position)
-        if gatekeeper:
-            gemstone.get_stone_value()
-            gemstone.set_text("O")
-        else:
-            gemstone.get_gem_value()
-            gemstone.set_text("*")
-        cast.add_actor("gemstone", gemstone)
+        gemstone.set_message(message)
+        cast.add_actor("gemstones", gemstone)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)

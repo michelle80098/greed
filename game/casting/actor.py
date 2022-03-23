@@ -2,7 +2,7 @@ from game.shared.color import Color
 from game.shared.point import Point
 
 
-class Player:
+class Actor:
     """A visible, moveable thing that participates in the game. 
     
     The responsibility of Actor is to keep track of its appearance, position and velocity in 2d 
@@ -48,7 +48,7 @@ class Player:
         """
         return self._position
     
-    def get_values(self):
+    def get_text(self):
         """Gets the actor's textual representation.
         
         Returns:
